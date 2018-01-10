@@ -7,6 +7,8 @@
 package com.jfinal.weixin.demo;
 
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.weixin.plugin.mongodb.MongodbKit;
 import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
 import com.jfinal.weixin.sdk.msg.in.InImageMsg;
 import com.jfinal.weixin.sdk.msg.in.InLinkMsg;
@@ -43,7 +45,8 @@ public class WeixinMsgController extends MsgControllerAdapter {
     @Override
     protected void processInTextMsg(InTextMsg inTextMsg) {
         OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-        outMsg.setContent("文本消息~");
+        Record movie = MongodbKit.findFirst("movie");
+        outMsg.setContent("文本消息\n"+movie.toJson());
         render(outMsg);
     }
 

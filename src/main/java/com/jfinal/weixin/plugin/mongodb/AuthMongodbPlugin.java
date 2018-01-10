@@ -1,15 +1,12 @@
-package com.jfinal.weixin.plugin;
+package com.jfinal.weixin.plugin.mongodb;
 
-import com.jfinal.ext.plugin.monogodb.MongoKit;
-import com.jfinal.ext.plugin.monogodb.MongodbPlugin;
 import com.jfinal.plugin.IPlugin;
+import com.jfinal.weixin.plugin.mongodb.MongodbKit;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class AuthMongodbPlugin implements IPlugin {
     private static final String DEFAULT_HOST = "127.0.0.1";
@@ -46,10 +43,8 @@ public class AuthMongodbPlugin implements IPlugin {
     public boolean start() {
         //MongoCredential.createScramSha1Credential()三个参数分别为 用户名 数据库名称 密码
         MongoCredential credential = MongoCredential.createScramSha1Credential(user, database, password.toCharArray());
-        List<MongoCredential> credentials = new ArrayList<>();
-        credentials.add(credential);
-        client = new MongoClient(new ServerAddress(host, port),credentials);
-        MongoKit.init(client, database);
+        client = new MongoClient(new ServerAddress(host, port), Arrays.asList(credential));
+        MongodbKit.init(client, database);
         return true;
     }
 

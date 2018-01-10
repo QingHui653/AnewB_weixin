@@ -15,6 +15,7 @@ import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PropKit;
 import com.jfinal.template.Engine;
+import com.jfinal.weixin.plugin.mongodb.AuthMongodbPlugin;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.jfinal.wxaapp.WxaConfig;
@@ -69,6 +70,11 @@ public class WeixinConfig extends JFinalConfig {
         // RedisPlugin redisPlugin = new RedisPlugin("weixin", "127.0.0.1");
         // redisPlugin.setSerializer(JdkSerializer.me); // 需要使用fst高性能序列化的用户请删除这一行（Fst jar依赖请查看WIKI）
         // me.add(redisPlugin);
+
+        AuthMongodbPlugin mongodbPlugin =
+                new AuthMongodbPlugin(PropKit.get("mongodb_host"), PropKit.getInt("mongodb_port"), PropKit.get("mongodb_user"),
+                        PropKit.get("mongodb_password"),PropKit.get("mongodb_db"));
+        me.add(mongodbPlugin);
     }
 
     @Override
@@ -131,9 +137,9 @@ public class WeixinConfig extends JFinalConfig {
         WxaConfig wc = new WxaConfig();
 //        wc.setAppId("wx4f53594f9a6b3dcb");
 //        wc.setAppSecret("eec6482ba3804df05bd10895bace0579");
-        wc.setAppId("");
-        wc.setToken("");
-        wc.setAppSecret("");
+        wc.setToken(PropKit.get("token"));
+        wc.setAppId(PropKit.get("appId"));
+        wc.setAppSecret(PropKit.get("appSecret"));
         WxaConfigKit.setWxaConfig(wc);
     }
 
