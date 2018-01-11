@@ -6,6 +6,7 @@
 
 package com.jfinal.weixin.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.weixin.plugin.mongodb.MongodbKit;
@@ -27,6 +28,15 @@ import com.jfinal.weixin.sdk.msg.in.event.InTemplateMsgEvent;
 import com.jfinal.weixin.sdk.msg.in.speech_recognition.InSpeechRecognitionResults;
 import com.jfinal.weixin.sdk.msg.out.OutCustomMsg;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
+import com.mongodb.*;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import org.bson.Document;
+
+import javax.management.Query;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * 将此 DemoController 在YourJFinalConfig 中注册路由，
@@ -45,8 +55,22 @@ public class WeixinMsgController extends MsgControllerAdapter {
     @Override
     protected void processInTextMsg(InTextMsg inTextMsg) {
         OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-        Record movie = MongodbKit.findFirst("movie");
-        outMsg.setContent("文本消息\n"+movie.toJson());
+        MongoCollection<Document> movies = MongodbKit.getClient().getDatabase("upload").getCollection("movie");
+
+        Pattern name = Pattern.compile(".*"+inTextMsg.getContent()+".*");
+        BasicDBObject query = new BasicDBObject("movieName", name);
+
+        List<Document> movieList = movies
+                .find(query)
+                .into(new ArrayList<Document>());
+        String msg ="";
+        for (Document document : movieList) {
+            msg+="movieName\n"+document.get("movieName");
+            msg+="\nmovieLink\n"+document.get("movieLink");
+            msg+="\n";
+        }
+
+        outMsg.setContent(msg);
         render(outMsg);
     }
 

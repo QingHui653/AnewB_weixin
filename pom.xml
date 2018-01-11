@@ -32,7 +32,12 @@
     <dependency>
       <groupId>com.jfinal</groupId>
       <artifactId>jfinal</artifactId>
-      <version>3.3</version>
+      <version>3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jfinal</groupId>
+      <artifactId>jfinal-weixin</artifactId>
+      <version>1.9</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>

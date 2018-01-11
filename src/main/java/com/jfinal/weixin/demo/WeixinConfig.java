@@ -55,7 +55,7 @@ public class WeixinConfig extends JFinalConfig {
         me.add("/api", WeixinApiController.class, "/api");
         me.add("/pay", WeixinPayController.class);
         me.add("/wxa/user", WxaUserApiController.class);
-        me.add("/subscribemsg", SubscribeMsgController.class);
+//        me.add("/subscribemsg", SubscribeMsgController.class);
     }
 
     @Override
