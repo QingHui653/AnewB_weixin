@@ -3,11 +3,11 @@ user = root
 password =
 devMode = true
 
-mongodb_host=
-mongodb_port=
-mongodb_user=
+mongodb_host=119.23.231.239
+mongodb_port=27017
+mongodb_user=qh
 mongodb_password=
-mongodb_db=
+mongodb_db=upload
 
 # 微信服务器回调所用的 token
 token=qinghuiwx
@@ -16,8 +16,8 @@ token=qinghuiwx
 #appId=wx9803d1188fa5fbda
 #appSecret=db859c968763c582794e7c3d003c3d87
 
-appId=
-appSecret=
+appId=wxa00ed3a760ed8500
+appSecret=e21cdeb5c2545a6aacbf245d552c4802
 
 #是否对消息进行加密，是否对消息进行加密，对应于微信平台的消息加解密方式，false支持明文模式及兼容模式，true支持安全模式及兼容模式
 #encryptMessage=false
